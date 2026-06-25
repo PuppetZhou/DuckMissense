@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+*.egg-info/
+
+# Environments
+.venv/
+venv/
+env/
+.env
+.env.*
+
+# Large data and model artifacts
+data/raw_data/
+data/proceed/
+data/seq_cache_api_mapping/
+model/
+*.pt
+*.pth
+*.ckpt
+
+# Training outputs
+result/tensorboard/
+result/logs/
+result/*.db
+
+# Generated prediction outputs / plots
+example/*_predictions.csv
+example/*_logit_scatter.png
+output*.png
+
+# OS / editor
+.DS_Store
+.vscode/
+.idea/
