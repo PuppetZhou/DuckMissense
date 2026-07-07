@@ -1,0 +1,30 @@
+name: esm
+channels:
+  - pytorch
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.13
+  - pytorch>=2.0,<3.0
+  - transformers>=4.0,<5.0
+  - pandas
+  - polars
+  - numpy
+  - scikit-learn
+  - scipy
+  - tqdm
+  - requests
+  - optuna
+  - tensorboard
+  - jupyter
+  - pip
+  - pip:
+      # Third-party amino-acid index package used for physicochemical encoding.
+      - aaindex
+      # Facebook ESM model package (provides ESM-1b/ESM-2 weights and tools).
+      - fair-esm
+
+# GPU/CUDA note:
+# For CUDA support, install a matching pytorch-cuda package (e.g. pytorch-cuda=12.1)
+# from the pytorch channel, or install PyTorch via pip with the appropriate
+# --index-url for your CUDA version. CPU-only installs work without extra changes.

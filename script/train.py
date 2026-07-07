@@ -19,7 +19,7 @@ from torch.utils.data import DataLoader
 from torch.utils.tensorboard import SummaryWriter
 from tqdm import tqdm
 
-from aaindex import AAINDEX_DIM
+from aaindex_encoding import AAINDEX_DIM
 from dataloader import MissenseCollator, MissenseDataset
 from model import CNNPairClassifier, GatedResidualClassifier, MLPClassifier, MissenseESMBiLSTM
 
@@ -154,10 +154,12 @@ def evaluate(model, loader, criterion, device, desc="val"):
         loss = criterion(logits, batch["labels"])
 
         total_loss += loss.item() * batch["labels"].size(0)
-        labels.extend(batch["labels"].cpu().numpy())
-        probs.extend(torch.sigmoid(logits).cpu().numpy())
+        labels.append(batch["labels"])
+        probs.append(torch.sigmoid(logits))
 
-    metrics = calc_metrics(np.array(labels), np.array(probs))
+    labels = torch.cat(labels).cpu().numpy()
+    probs = torch.cat(probs).cpu().numpy()
+    metrics = calc_metrics(labels, probs)
     metrics["loss"] = total_loss / len(loader.dataset)
     return metrics
 

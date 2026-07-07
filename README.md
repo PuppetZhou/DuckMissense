@@ -86,7 +86,7 @@ Prediction output includes:
 | `script/Data_process.ipynb` | Raw data exploration and dataset construction |
 | `script/map_refseq.py` | Map source-specific IDs to reference protein sequences |
 | `script/prepare_data.py` | Build reference/mutated windows and train/val/test splits |
-| `script/aaindex.py` | Encode amino acids with AAIndex features |
+| `script/aaindex_encoding.py` | Encode amino acids with AAIndex features |
 | `script/dataloader.py` | PyTorch dataset and collator |
 | `script/model.py` | ESM2 + AAIndex + BiLSTM model |
 | `script/train.py` | Training and validation loop |

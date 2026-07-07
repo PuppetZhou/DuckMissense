@@ -1,14 +1,13 @@
 import argparse
-import re
 from pathlib import Path
 
 import pandas as pd
 from sklearn.model_selection import train_test_split
 
+from data_utils import make_window_from_variant
+
 
 ROOT = Path(__file__).resolve().parents[1]
-AA_SET = set("ACDEFGHIKLMNPQRSTVWY")
-VARIANT_RE = re.compile(r"^([A-Z*])(\d+)([A-Z*])$")
 
 INPUT_CSV = ROOT / "data/proceed/variant_clean_final.csv"
 OUT_DIR = ROOT / "data/proceed/splits"
@@ -51,32 +50,9 @@ def parse_args():
     return parser.parse_args()
 
 
-def clean_seq(seq):
-    return "".join(aa if aa in AA_SET else "X" for aa in str(seq).upper())
-
-
-def make_windows(ref_seq, variant, upstream, downstream):
-    match = VARIANT_RE.match(str(variant))
-    if match is None:
-        raise ValueError(f"bad variant: {variant}")
-
-    _, pos, alt = match.groups()
-    ref_seq = clean_seq(ref_seq)
-    pos0 = int(pos) - 1
-    alt = alt if alt in AA_SET else "X"
-
-    alt_seq = list(ref_seq)
-    alt_seq[pos0] = alt
-    alt_seq = "".join(alt_seq)
-
-    start = max(0, pos0 - upstream)
-    end = min(len(ref_seq), pos0 + downstream + 1)
-    return ref_seq[start:end], alt_seq[start:end], pos0 - start
-
-
 def add_windows(df, upstream, downstream):
     rows = [
-        make_windows(row.ref_seq, row.protein_variant, upstream, downstream)
+        make_window_from_variant(row.ref_seq, row.protein_variant, upstream, downstream, strict_alt=False)
         for row in df.itertuples(index=False)
     ]
     df = df.copy()

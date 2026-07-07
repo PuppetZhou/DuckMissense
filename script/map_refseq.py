@@ -11,6 +11,8 @@ import requests
 from tqdm import tqdm
 
 
+ROOT = Path(__file__).resolve().parents[1]
+
 NCBI_EFETCH_URL = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi"
 ENSEMBL_SEQUENCE_URL = "https://rest.ensembl.org/sequence/id/{ensembl_id}"
 ENSEMBL_SEQUENCE_BATCH_URL = "https://rest.ensembl.org/sequence/id"
@@ -24,17 +26,17 @@ def parse_args():
     )
     parser.add_argument(
         "--input",
-        default="/home/xuyzh/d2l/SYSU-hw/MutDisease/merged_dataset.csv",
+        default=str(ROOT / "merged_dataset.csv"),
         help="Input merged CSV without ref_seq.",
     )
     parser.add_argument(
         "--output",
-        default="/home/xuyzh/d2l/SYSU-hw/MutDisease/data/proceed/merged_dataset_with_refseq.csv",
+        default=str(ROOT / "data" / "proceed" / "merged_dataset_with_refseq.csv"),
         help="Output CSV with ref_seq and variant_ref_match.",
     )
     parser.add_argument(
         "--cache-dir",
-        default="/home/xuyzh/d2l/SYSU-hw/MutDisease/seq_cache_api_mapping",
+        default=str(ROOT / "data" / "seq_cache_api_mapping"),
         help="Directory for cached sequence lookup results.",
     )
     parser.add_argument(
